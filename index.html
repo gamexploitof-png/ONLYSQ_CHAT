@@ -266,7 +266,7 @@
         }
 
         .model-list {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             border: 1px solid var(--md-sys-color-outline-variant);
             border-radius: 16px;
@@ -277,21 +277,31 @@
         .model-item {
             display: flex;
             align-items: center;
-            padding: 12px;
+            padding: 14px;
             border-radius: 12px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-bottom: 4px;
+            transition: all 0.2s ease;
+            margin-bottom: 6px;
+            position: relative;
+            background: transparent;
         }
 
         .model-item:hover {
             background-color: var(--md-sys-color-surface-variant);
+            transform: translateX(4px);
+        }
+
+        .model-item.selected {
+            background-color: rgba(0, 98, 255, 0.08);
+            border: 1px solid var(--md-sys-color-primary);
+            box-shadow: 0 0 0 2px rgba(0, 98, 255, 0.1);
         }
 
         .model-item input {
             width: auto;
-            margin-right: 12px;
+            margin-right: 14px;
             accent-color: var(--md-sys-color-primary);
+            transform: scale(1.1);
         }
 
         .model-item label {
@@ -304,11 +314,43 @@
             color: var(--md-sys-color-on-surface);
             cursor: pointer;
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
-        .model-item.selected {
-            background-color: rgba(0, 98, 255, 0.08);
-            border: 1px solid var(--md-sys-color-primary);
+        .model-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .model-desc {
+            font-size: 12px;
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.8;
+        }
+
+        .model-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .model-tier {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            background: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 600;
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .model-cost {
+            font-size: 11px;
+            color: var(--md-sys-color-primary);
+            font-weight: 600;
         }
 
         .status {
@@ -404,11 +446,76 @@
             border: 1px solid var(--md-sys-color-outline-variant);
             border-radius: 16px;
             padding: 16px;
-            background-color: var(--md-sys-color-surface);
+            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.9) 100%);
             margin-bottom: 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
+            position: relative;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            padding: 12px 16px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--md-sys-color-on-surface-variant);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.6; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 8px 0;
+            border-bottom: 1px solid transparent;
+            margin-bottom: 8px;
+            z-index: 1;
+        }
+
+        .chat-stats {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 12px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: var(--md-sys-color-surface-variant);
+            border: 1px solid var(--md-sys-color-outline-variant);
         }
 
         .message {
@@ -536,12 +643,28 @@
         <div class="main">
             <h2>Chat</h2>
             <div id="chatContainer" class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-stats">
+                        <div class="stat-item">
+                            <span>🤖</span>
+                            <span id="currentModel">No model selected</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>💬</span>
+                            <span id="messageCount">0 messages</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>⏱️</span>
+                            <span id="lastActivity">-</span>
+                        </div>
+                    </div>
+                </div>
                 <!-- Messages will appear here -->
             </div>
             
-            <div class="input-group">
+            <div class="input-area">
                 <input type="text" id="messageInput" placeholder="Type your message here...">
-                <button id="sendBtn">Send</button>
+                <button id="sendBtn" class="send-btn">Send</button>
             </div>
         </div>
     </div>
@@ -558,6 +681,8 @@
         let models = [];
         let isLoadingModels = false;
         let isSendingMessage = false;
+        let messageCount = 0;
+        let lastActivityTime = null;
 
         // DOM Elements
         const elements = {
@@ -569,7 +694,10 @@
             clearChatBtn: document.getElementById('clearChatBtn'),
             chatContainer: document.getElementById('chatContainer'),
             messageInput: document.getElementById('messageInput'),
-            sendBtn: document.getElementById('sendBtn')
+            sendBtn: document.getElementById('sendBtn'),
+            currentModel: document.getElementById('currentModel'),
+            messageCount: document.getElementById('messageCount'),
+            lastActivity: document.getElementById('lastActivity')
         };
 
         // Initialize
@@ -601,12 +729,55 @@
             messageDiv.textContent = content;
             elements.chatContainer.appendChild(messageDiv);
             elements.chatContainer.scrollTop = elements.chatContainer.scrollHeight;
+            
+            // Update statistics
+            updateStatistics();
         }
 
         function clearChat() {
             elements.chatContainer.innerHTML = '';
             selectedModel = '';
+            messageCount = 0;
+            lastActivityTime = null;
+            updateStatistics();
             setStatus('Chat cleared. Please load models and select one.');
+        }
+
+        function updateStatistics() {
+            // Update message count
+            const messages = elements.chatContainer.querySelectorAll('.message');
+            messageCount = messages.length;
+            elements.messageCount.textContent = `${messageCount} messages`;
+            
+            // Update current model
+            if (selectedModel) {
+                elements.currentModel.textContent = selectedModel;
+            } else {
+                elements.currentModel.textContent = 'No model selected';
+            }
+            
+            // Update last activity
+            if (messageCount > 0) {
+                lastActivityTime = new Date();
+                elements.lastActivity.textContent = formatTime(lastActivityTime);
+            } else {
+                elements.lastActivity.textContent = '-';
+            }
+        }
+
+        function formatTime(date) {
+            if (!date) return '-';
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            
+            // Show date for older activities
+            return date.toLocaleDateString();
         }
 
         // API Functions
@@ -666,6 +837,9 @@
             addMessage(message, true);
             elements.messageInput.value = '';
 
+            // Show typing indicator
+            showTypingIndicator();
+
             try {
                 const response = await fetch(`${CONFIG.defaultBaseUrl}/chat/completions`, {
                     method: 'POST',
@@ -686,6 +860,9 @@
                     })
                 });
 
+                // Hide typing indicator
+                hideTypingIndicator();
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -700,6 +877,8 @@
                     throw new Error('Invalid response format');
                 }
             } catch (error) {
+                // Hide typing indicator on error
+                hideTypingIndicator();
                 console.error('Error sending message:', error);
                 addMessage(`Error: ${error.message}`, false);
                 setStatus(`Error sending message: ${error.message}`, true);
@@ -707,6 +886,33 @@
                 isSendingMessage = false;
                 elements.sendBtn.disabled = false;
                 elements.messageInput.disabled = false;
+            }
+        }
+
+        function showTypingIndicator() {
+            // Create typing indicator if it doesn't exist
+            let typingIndicator = document.querySelector('.typing-indicator');
+            if (!typingIndicator) {
+                typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = `
+                    <div class="typing-dots">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                    <span style="margin-left: 8px; opacity: 0.6;">AI is thinking...</span>
+                `;
+                elements.chatContainer.appendChild(typingIndicator);
+            }
+            typingIndicator.style.display = 'flex';
+            elements.chatContainer.scrollTop = elements.chatContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.querySelector('.typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.style.display = 'none';
             }
         }
 
@@ -735,7 +941,37 @@
 
                 const label = document.createElement('label');
                 label.htmlFor = `model-${index}`;
-                label.textContent = model;
+                
+                // Create model name element
+                const modelName = document.createElement('div');
+                modelName.className = 'model-name';
+                modelName.textContent = model;
+                
+                // Create model description element
+                const modelDesc = document.createElement('div');
+                modelDesc.className = 'model-desc';
+                modelDesc.textContent = getModelDescription(model);
+                
+                // Create model metadata container
+                const modelMeta = document.createElement('div');
+                modelMeta.className = 'model-meta';
+                
+                // Create tier badge
+                const tierBadge = document.createElement('span');
+                tierBadge.className = 'model-tier';
+                tierBadge.textContent = `Tier ${getModelTier(model)}`;
+                
+                // Create cost indicator
+                const costBadge = document.createElement('span');
+                costBadge.className = 'model-cost';
+                costBadge.textContent = `${getModelCost(model)}$`;
+                
+                modelMeta.appendChild(tierBadge);
+                modelMeta.appendChild(costBadge);
+                
+                label.appendChild(modelName);
+                label.appendChild(modelDesc);
+                label.appendChild(modelMeta);
 
                 modelDiv.appendChild(radio);
                 modelDiv.appendChild(label);
@@ -748,6 +984,53 @@
                 document.querySelector(`input[value="${selectedModel}"]`).checked = true;
                 setStatus(`Selected model: ${selectedModel}`);
             }
+        }
+
+        // Helper functions for model information
+        function getModelDescription(modelId) {
+            // Basic descriptions based on model names
+            const descriptions = {
+                'gpt-4o': 'Flagship omni model with high intelligence and multimodal capabilities',
+                'gpt-4o-mini': 'Affordable and intelligent small model for fast tasks',
+                'gpt-3.5-turbo': 'Fast, inexpensive model for simple tasks',
+                'claude-sonnet-4-5': 'Advanced reasoning model with excellent text generation',
+                'gemini-2.5-flash': 'Fast and efficient version of Google\'s Gemini model',
+                'llama3.1-8b': 'Multilingual large language model optimized for dialogue',
+                'qwen2.5-72b-instruct': 'Smart large language model from Alibaba',
+                'deepseek-v3': 'Highly capable open-source language model',
+                'command-r7b-12-2024': 'Efficient 7B model optimized for RAG and local deployment',
+                'mistral-small-3.1': 'State-of-the-art model with enhanced long context capabilities'
+            };
+            
+            return descriptions[modelId] || 'Powerful AI model for various tasks';
+        }
+
+        function getModelTier(modelId) {
+            // Extract tier from model name or use default
+            if (modelId.includes('gpt-4o')) return '2';
+            if (modelId.includes('gpt-3.5')) return '1';
+            if (modelId.includes('claude')) return modelId.includes('opus') ? '4' : '3';
+            if (modelId.includes('gemini')) return modelId.includes('pro') ? '3' : '1';
+            if (modelId.includes('llama')) return '0';
+            if (modelId.includes('qwen')) return '2';
+            if (modelId.includes('deepseek')) return '2';
+            if (modelId.includes('command')) return '2';
+            if (modelId.includes('mistral')) return '2';
+            return '2';
+        }
+
+        function getModelCost(modelId) {
+            // Extract cost from model name or use default
+            if (modelId.includes('gpt-4o')) return '0.4';
+            if (modelId.includes('gpt-3.5')) return '0.2';
+            if (modelId.includes('claude')) return modelId.includes('opus') ? '2.2' : '1.6';
+            if (modelId.includes('gemini')) return '1.0';
+            if (modelId.includes('llama')) return '0.3';
+            if (modelId.includes('qwen')) return '1.2';
+            if (modelId.includes('deepseek')) return '1.5';
+            if (modelId.includes('command')) return '1.0';
+            if (modelId.includes('mistral')) return '1.0';
+            return '1.0';
         }
 
         // Start the application
