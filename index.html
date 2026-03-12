@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlySq AI Chat Interface</title>
+    <style>
+        :root {
+            --md-sys-color-primary: #0062ff;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #dce1ff;
+            --md-sys-color-on-primary-container: #001c5a;
+            --md-sys-color-secondary: #5a5e76;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-secondary-container: #e0e2ff;
+            --md-sys-color-on-secondary-container: #161a33;
+            --md-sys-color-tertiary: #715573;
+            --md-sys-color-on-tertiary: #ffffff;
+            --md-sys-color-tertiary-container: #fbd7fb;
+            --md-sys-color-on-tertiary-container: #2a132d;
+            --md-sys-color-error: #ba1a1a;
+            --md-sys-color-on-error: #ffffff;
+            --md-sys-color-error-container: #ffdad6;
+            --md-sys-color-on-error-container: #410002;
+            --md-sys-color-background: #fcfcff;
+            --md-sys-color-on-background: #1a1b1f;
+            --md-sys-color-surface: #fcfcff;
+            --md-sys-color-on-surface: #1a1b1f;
+            --md-sys-color-surface-variant: #e3e1ec;
+            --md-sys-color-on-surface-variant: #45464f;
+            --md-sys-color-outline: #757780;
+            --md-sys-color-outline-variant: #c6c7d0;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-scrim: #000000;
+            --md-sys-color-inverse-surface: #2f3034;
+            --md-sys-color-inverse-on-surface: #f2f0f4;
+            --md-sys-color-inverse-primary: #b9c4ff;
+            --md-sys-typescale-display-large-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-display-large-font-weight: 400;
+            --md-sys-typescale-display-large-font-size: 57px;
+            --md-sys-typescale-display-large-line-height: 64px;
+            --md-sys-typescale-display-large-letter-spacing: -0.25px;
+            --md-sys-typescale-display-medium-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-display-medium-font-weight: 400;
+            --md-sys-typescale-display-medium-font-size: 45px;
+            --md-sys-typescale-display-medium-line-height: 52px;
+            --md-sys-typescale-display-medium-letter-spacing: 0px;
+            --md-sys-typescale-display-small-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-display-small-font-weight: 400;
+            --md-sys-typescale-display-small-font-size: 36px;
+            --md-sys-typescale-display-small-line-height: 44px;
+            --md-sys-typescale-display-small-letter-spacing: 0px;
+            --md-sys-typescale-headline-large-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-headline-large-font-weight: 400;
+            --md-sys-typescale-headline-large-font-size: 32px;
+            --md-sys-typescale-headline-large-line-height: 40px;
+            --md-sys-typescale-headline-large-letter-spacing: 0px;
+            --md-sys-typescale-headline-medium-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-headline-medium-font-weight: 400;
+            --md-sys-typescale-headline-medium-font-size: 28px;
+            --md-sys-typescale-headline-medium-line-height: 36px;
+            --md-sys-typescale-headline-medium-letter-spacing: 0px;
+            --md-sys-typescale-headline-small-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-headline-small-font-weight: 400;
+            --md-sys-typescale-headline-small-font-size: 24px;
+            --md-sys-typescale-headline-small-line-height: 32px;
+            --md-sys-typescale-headline-small-letter-spacing: 0px;
+            --md-sys-typescale-title-large-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-title-large-font-weight: 400;
+            --md-sys-typescale-title-large-font-size: 22px;
+            --md-sys-typescale-title-large-line-height: 28px;
+            --md-sys-typescale-title-large-letter-spacing: 0px;
+            --md-sys-typescale-title-medium-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-title-medium-font-weight: 500;
+            --md-sys-typescale-title-medium-font-size: 16px;
+            --md-sys-typescale-title-medium-line-height: 24px;
+            --md-sys-typescale-title-medium-letter-spacing: 0.15px;
+            --md-sys-typescale-title-small-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-title-small-font-weight: 500;
+            --md-sys-typescale-title-small-font-size: 14px;
+            --md-sys-typescale-title-small-line-height: 20px;
+            --md-sys-typescale-title-small-letter-spacing: 0.1px;
+            --md-sys-typescale-label-large-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-label-large-font-weight: 500;
+            --md-sys-typescale-label-large-font-size: 14px;
+            --md-sys-typescale-label-large-line-height: 20px;
+            --md-sys-typescale-label-large-letter-spacing: 0.1px;
+            --md-sys-typescale-label-medium-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-label-medium-font-weight: 500;
+            --md-sys-typescale-label-medium-font-size: 12px;
+            --md-sys-typescale-label-medium-line-height: 16px;
+            --md-sys-typescale-label-medium-letter-spacing: 0.5px;
+            --md-sys-typescale-label-small-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-label-small-font-weight: 500;
+            --md-sys-typescale-label-small-font-size: 11px;
+            --md-sys-typescale-label-small-line-height: 16px;
+            --md-sys-typescale-label-small-letter-spacing: 0.5px;
+            --md-sys-typescale-body-large-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-body-large-font-weight: 400;
+            --md-sys-typescale-body-large-font-size: 16px;
+            --md-sys-typescale-body-large-line-height: 24px;
+            --md-sys-typescale-body-large-letter-spacing: 0.5px;
+            --md-sys-typescale-body-medium-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-body-medium-font-weight: 400;
+            --md-sys-typescale-body-medium-font-size: 14px;
+            --md-sys-typescale-body-medium-line-height: 20px;
+            --md-sys-typescale-body-medium-letter-spacing: 0.25px;
+            --md-sys-typescale-body-small-font-family: "Google Sans", "Roboto", "Arial", sans-serif;
+            --md-sys-typescale-body-small-font-weight: 400;
+            --md-sys-typescale-body-small-font-size: 12px;
+            --md-sys-typescale-body-small-line-height: 16px;
+            --md-sys-typescale-body-small-letter-spacing: 0.4px;
+        }
+
+        body {
+            font-family: var(--md-sys-typescale-body-large-font-family);
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+        }
+
+        .sidebar {
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .main {
+            background: var(--md-sys-color-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            min-height: 80vh;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        h1 {
+            font-family: var(--md-sys-typescale-headline-large-font-family);
+            font-weight: var(--md-sys-typescale-headline-large-font-weight);
+            font-size: var(--md-sys-typescale-headline-large-font-size);
+            line-height: var(--md-sys-typescale-headline-large-line-height);
+            letter-spacing: var(--md-sys-typescale-headline-large-letter-spacing);
+            margin: 0;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        h2 {
+            font-family: var(--md-sys-typescale-title-large-font-family);
+            font-weight: var(--md-sys-typescale-title-large-font-weight);
+            font-size: var(--md-sys-typescale-title-large-font-size);
+            line-height: var(--md-sys-typescale-title-large-line-height);
+            letter-spacing: var(--md-sys-typescale-title-large-letter-spacing);
+            margin: 0 0 16px 0;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .section-title {
+            font-family: var(--md-sys-typescale-title-medium-font-family);
+            font-weight: var(--md-sys-typescale-title-medium-font-weight);
+            font-size: var(--md-sys-typescale-title-medium-font-size);
+            line-height: var(--md-sys-typescale-title-medium-line-height);
+            letter-spacing: var(--md-sys-typescale-title-medium-letter-spacing);
+            margin: 24px 0 12px 0;
+            color: var(--md-sys-color-on-surface-variant);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-family: var(--md-sys-typescale-label-medium-font-family);
+            font-weight: var(--md-sys-typescale-label-medium-font-weight);
+            font-size: var(--md-sys-typescale-label-medium-font-size);
+            line-height: var(--md-sys-typescale-label-medium-line-height);
+            letter-spacing: var(--md-sys-typescale-label-medium-letter-spacing);
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 16px;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            font-family: var(--md-sys-typescale-body-medium-font-family);
+            font-weight: var(--md-sys-typescale-body-medium-font-weight);
+            font-size: var(--md-sys-typescale-body-medium-font-size);
+            line-height: var(--md-sys-typescale-body-medium-line-height);
+            letter-spacing: var(--md-sys-typescale-body-medium-letter-spacing);
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus, 
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 98, 255, 0.1);
+        }
+
+        input[readonly] {
+            background: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            cursor: not-allowed;
+        }
+
+        .model-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 16px;
+            padding: 8px;
+            background: var(--md-sys-color-surface);
+        }
+
+        .model-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .model-item:hover {
+            background-color: var(--md-sys-color-surface-variant);
+        }
+
+        .model-item input {
+            width: auto;
+            margin-right: 12px;
+            accent-color: var(--md-sys-color-primary);
+        }
+
+        .model-item label {
+            font-family: var(--md-sys-typescale-body-medium-font-family);
+            font-weight: var(--md-sys-typescale-body-medium-font-weight);
+            font-size: var(--md-sys-typescale-body-medium-font-size);
+            line-height: var(--md-sys-typescale-body-medium-line-height);
+            letter-spacing: var(--md-sys-typescale-body-medium-letter-spacing);
+            margin: 0;
+            color: var(--md-sys-color-on-surface);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .model-item.selected {
+            background-color: rgba(0, 98, 255, 0.08);
+            border: 1px solid var(--md-sys-color-primary);
+        }
+
+        .status {
+            font-family: var(--md-sys-typescale-body-small-font-family);
+            font-weight: var(--md-sys-typescale-body-small-font-weight);
+            font-size: var(--md-sys-typescale-body-small-font-size);
+            line-height: var(--md-sys-typescale-body-small-line-height);
+            letter-spacing: var(--md-sys-typescale-body-small-letter-spacing);
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status.error {
+            color: var(--md-sys-color-error);
+        }
+
+        .status.success {
+            color: var(--md-sys-color-primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .status.success .status-dot {
+            background-color: var(--md-sys-color-primary);
+        }
+
+        .status.error .status-dot {
+            background-color: var(--md-sys-color-error);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        button {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: var(--md-sys-typescale-label-large-font-family);
+            font-weight: var(--md-sys-typescale-label-large-font-weight);
+            font-size: var(--md-sys-typescale-label-large-font-size);
+            line-height: var(--md-sys-typescale-label-large-line-height);
+            letter-spacing: var(--md-sys-typescale-label-large-letter-spacing);
+            transition: all 0.2s ease;
+            flex: 1;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        button:hover {
+            background-color: #0052d4;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 98, 255, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .secondary-btn {
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .secondary-btn:hover {
+            background-color: var(--md-sys-color-surface-variant);
+            box-shadow: none;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 16px;
+            padding: 16px;
+            background-color: var(--md-sys-color-surface);
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 16px;
+            max-width: 80%;
+            font-family: var(--md-sys-typescale-body-large-font-family);
+            font-weight: var(--md-sys-typescale-body-large-font-weight);
+            font-size: var(--md-sys-typescale-body-large-font-size);
+            line-height: var(--md-sys-typescale-body-large-line-height);
+            letter-spacing: var(--md-sys-typescale-body-large-letter-spacing);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            align-self: flex-start;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: 24px;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            font-family: var(--md-sys-typescale-body-large-font-family);
+            font-weight: var(--md-sys-typescale-body-large-font-weight);
+            font-size: var(--md-sys-typescale-body-large-font-size);
+            line-height: var(--md-sys-typescale-body-large-line-height);
+            letter-spacing: var(--md-sys-typescale-body-large-letter-spacing);
+            transition: all 0.2s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 98, 255, 0.1);
+        }
+
+        .send-btn {
+            padding: 14px 24px;
+            border-radius: 24px;
+            min-width: 120px;
+        }
+
+        .error {
+            color: var(--md-sys-color-error);
+            font-family: var(--md-sys-typescale-body-small-font-family);
+            font-weight: var(--md-sys-typescale-body-small-font-weight);
+            font-size: var(--md-sys-typescale-body-small-font-size);
+            line-height: var(--md-sys-typescale-body-small-line-height);
+            letter-spacing: var(--md-sys-typescale-body-small-letter-spacing);
+            margin-top: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Scrollbar styling */
+        .model-list::-webkit-scrollbar,
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .model-list::-webkit-scrollbar-track,
+        .chat-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .model-list::-webkit-scrollbar-thumb,
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 4px;
+        }
+
+        .model-list::-webkit-scrollbar-thumb:hover,
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: var(--md-sys-color-on-surface-variant);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <h2>Settings</h2>
+            
+            <label for="apiKey">API Key</label>
+            <input type="password" id="apiKey" placeholder="Enter your API key">
+            
+            <label for="baseUrl">Base URL</label>
+            <input type="text" id="baseUrl" value="https://api.onlysq.ru/ai/openai" readonly>
+            
+            <h2>Available Models</h2>
+            <div id="modelList" class="model-list">
+                <!-- Models will be loaded here -->
+            </div>
+            
+            <div class="status" id="statusText">Status: Ready</div>
+            
+            <button id="loadModelsBtn">Load Models</button>
+            <button id="clearChatBtn">Clear Chat</button>
+        </div>
+
+        <div class="main">
+            <h2>Chat</h2>
+            <div id="chatContainer" class="chat-container">
+                <!-- Messages will appear here -->
+            </div>
+            
+            <div class="input-group">
+                <input type="text" id="messageInput" placeholder="Type your message here...">
+                <button id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            defaultApiKey: 'sq-zq8kT2BEKhxFdapFvtGBvlX8EB1PjbOa',
+            defaultBaseUrl: window.location.origin
+        };
+
+        // State
+        let selectedModel = '';
+        let models = [];
+        let isLoadingModels = false;
+        let isSendingMessage = false;
+
+        // DOM Elements
+        const elements = {
+            apiKey: document.getElementById('apiKey'),
+            baseUrl: document.getElementById('baseUrl'),
+            modelList: document.getElementById('modelList'),
+            statusText: document.getElementById('statusText'),
+            loadModelsBtn: document.getElementById('loadModelsBtn'),
+            clearChatBtn: document.getElementById('clearChatBtn'),
+            chatContainer: document.getElementById('chatContainer'),
+            messageInput: document.getElementById('messageInput'),
+            sendBtn: document.getElementById('sendBtn')
+        };
+
+        // Initialize
+        function init() {
+            // Set default API key
+            elements.apiKey.value = CONFIG.defaultApiKey;
+            
+            // Event Listeners
+            elements.loadModelsBtn.addEventListener('click', loadModels);
+            elements.clearChatBtn.addEventListener('click', clearChat);
+            elements.sendBtn.addEventListener('click', sendMessage);
+            elements.messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // Auto-load models on startup
+            loadModels();
+        }
+
+        // Utility Functions
+        function setStatus(text, isError = false) {
+            elements.statusText.textContent = text;
+            elements.statusText.style.color = isError ? '#dc3545' : '#6c757d';
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.textContent = content;
+            elements.chatContainer.appendChild(messageDiv);
+            elements.chatContainer.scrollTop = elements.chatContainer.scrollHeight;
+        }
+
+        function clearChat() {
+            elements.chatContainer.innerHTML = '';
+            selectedModel = '';
+            setStatus('Chat cleared. Please load models and select one.');
+        }
+
+        // API Functions
+        async function loadModels() {
+            if (isLoadingModels) return;
+            
+            isLoadingModels = true;
+            setStatus('Loading models...', false);
+            elements.loadModelsBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${CONFIG.defaultBaseUrl}/models`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${elements.apiKey.value}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data && data.data && Array.isArray(data.data)) {
+                    models = data.data.map(m => m.id).sort();
+                    renderModels();
+                    setStatus(`Loaded ${models.length} models successfully.`);
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } catch (error) {
+                console.error('Error loading models:', error);
+                setStatus(`Error loading models: ${error.message}`, true);
+            } finally {
+                isLoadingModels = false;
+                elements.loadModelsBtn.disabled = false;
+            }
+        }
+
+        async function sendMessage() {
+            const message = elements.messageInput.value.trim();
+            
+            if (!message) return;
+            if (!selectedModel) {
+                setStatus('Please select a model first.', true);
+                return;
+            }
+            if (isSendingMessage) return;
+
+            isSendingMessage = true;
+            elements.sendBtn.disabled = true;
+            elements.messageInput.disabled = true;
+
+            // Add user message to chat
+            addMessage(message, true);
+            elements.messageInput.value = '';
+
+            try {
+                const response = await fetch(`${CONFIG.defaultBaseUrl}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${elements.apiKey.value}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
+                        max_tokens: 1000,
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data && data.choices && data.choices[0] && data.choices[0].message) {
+                    const botMessage = data.choices[0].message.content;
+                    addMessage(botMessage, false);
+                    setStatus('Message sent successfully.');
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                addMessage(`Error: ${error.message}`, false);
+                setStatus(`Error sending message: ${error.message}`, true);
+            } finally {
+                isSendingMessage = false;
+                elements.sendBtn.disabled = false;
+                elements.messageInput.disabled = false;
+            }
+        }
+
+        // UI Rendering
+        function renderModels() {
+            elements.modelList.innerHTML = '';
+            
+            if (models.length === 0) {
+                elements.modelList.innerHTML = '<div class="error">No models available. Try loading models again.</div>';
+                return;
+            }
+
+            models.forEach((model, index) => {
+                const modelDiv = document.createElement('div');
+                modelDiv.className = 'model-item';
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'model';
+                radio.id = `model-${index}`;
+                radio.value = model;
+                radio.addEventListener('change', () => {
+                    selectedModel = model;
+                    setStatus(`Selected model: ${model}`);
+                });
+
+                const label = document.createElement('label');
+                label.htmlFor = `model-${index}`;
+                label.textContent = model;
+
+                modelDiv.appendChild(radio);
+                modelDiv.appendChild(label);
+                elements.modelList.appendChild(modelDiv);
+            });
+
+            // Select first model by default
+            if (models.length > 0 && !selectedModel) {
+                selectedModel = models[0];
+                document.querySelector(`input[value="${selectedModel}"]`).checked = true;
+                setStatus(`Selected model: ${selectedModel}`);
+            }
+        }
+
+        // Start the application
+        init();
+    </script>
+</body>
+</html>
