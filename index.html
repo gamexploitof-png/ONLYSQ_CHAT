@@ -802,14 +802,26 @@
                 }
 
                 const data = await response.json();
+                console.log('Raw models response:', data);
                 
+                // Handle different response formats
+                let modelsData;
                 if (data && data.data && Array.isArray(data.data)) {
-                    models = data.data.map(m => m.id).sort();
-                    renderModels();
-                    setStatus(`Loaded ${models.length} models successfully.`);
+                    // Standard OpenAI format
+                    modelsData = data.data;
+                } else if (Array.isArray(data)) {
+                    // Direct array format
+                    modelsData = data;
+                } else if (data && typeof data === 'object') {
+                    // Object with models array
+                    modelsData = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                 } else {
-                    throw new Error('Invalid response format');
+                    throw new Error('Unexpected response format');
                 }
+                
+                models = modelsData.map(m => m.id || m).sort();
+                renderModels();
+                setStatus(`Loaded ${models.length} models successfully.`);
             } catch (error) {
                 console.error('Error loading models:', error);
                 setStatus(`Error loading models: ${error.message}`, true);

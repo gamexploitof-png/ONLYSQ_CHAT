@@ -29,6 +29,7 @@ app.get('/models', async (req, res) => {
         }
         
         const data = await response.json();
+        console.log('Models response:', data);
         res.json(data);
     } catch (error) {
         console.error('Error fetching models:', error);
