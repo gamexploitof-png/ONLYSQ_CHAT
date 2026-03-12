@@ -1,0 +1,10 @@
+# Dependencies for OnlySq Telegram Bot
+
+# Telegram bot framework
+aiogram==2.25.2
+
+# OnlySq API client (OpenAI compatible)
+openai==1.35.12
+
+# Additional useful dependencies
+python-dotenv==1.0.0  # For loading environment variables from .env file

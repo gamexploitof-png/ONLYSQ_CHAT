@@ -1,124 +1,207 @@
-# OnlySq AI Chat Interface
+# OnlySq Telegram Bot
 
-A beautiful Material You styled web interface for the OnlySq AI API, featuring model selection, real-time chat, and a modern design.
+Telegram бот с интеграцией OnlySq API для общения с AI и генерации контента.
 
-## Features
+## 🚀 Возможности
 
-- 🎨 **Material You Design**: Modern, cohesive interface following Google's Material Design 3 guidelines
-- 🤖 **Multiple AI Models**: Access to all available OnlySq AI models including GPT-4o, Claude, Gemini, and more
-- 💬 **Real-time Chat**: Interactive chat interface with smooth animations
-- 🔧 **Easy Setup**: Simple Node.js server with proxy endpoints
-- 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- 🚀 **Local Hosting**: Run locally on any port you choose
+- **Чат с AI**: Общение через OnlySq API с поддержкой всех доступных моделей
+- **Команды**:
+  - `/start` - Начать работу с ботом
+  - `/help` - Справка по командам
+  - `/clear` - Очистить историю диалога
+  - `/settings` - Настройки AI модели
+  - `/history` - Просмотр истории диалога
+  - `/image` - Сгенерировать изображение
+- **Настройки**: Изменение модели, количества токенов и температуры
+- **История диалогов**: Сохранение истории для каждого пользователя
+- **Интерактивное меню**: Клавиатура с быстрыми командами
+- **Поддержка изображений**: Возможность загружать и анализировать изображения (для моделей Gemini)
 
-## Quick Start
+## 📋 Требования
 
-### Prerequisites
+- Python 3.8+
+- Telegram Bot Token
+- ТолькоSq API (используется базовый ключ "openai")
 
-- Node.js (version 14 or higher)
-- npm (comes with Node.js)
+## 🛠️ Установка
 
-### Installation
-
-1. **Clone or download** this project to your local machine
-
-2. **Install dependencies**:
+1. **Клонируйте репозиторий:**
    ```bash
-   npm install
+   git clone https://github.com/your-username/onlysq-telegram-bot.git
+   cd onlysq-telegram-bot
    ```
 
-3. **Start the server**:
+2. **Установите зависимости:**
    ```bash
-   npm start
+   pip install -r requirements.txt
    ```
 
-4. **Open your browser** and navigate to:
-   ```
-   http://localhost:3000
+3. **Настройте переменные окружения:**
+   
+   Создайте файл `.env` в корне проекта:
+   ```env
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
    ```
 
-### Development Mode
+   Или установите переменную окружения вручную:
+   ```bash
+   export TELEGRAM_BOT_TOKEN="your_telegram_bot_token_here"
+   ```
 
-For development with auto-restart:
+## 🏃‍♂️ Запуск
+
 ```bash
-npm run dev
+python telegram_bot.py
 ```
 
-## Project Structure
+Бот начнет работу и будет ожидать сообщений от пользователей.
 
-```
-ONLYSQ_CHAT/
-├── index.html          # Main web interface
-├── server.js           # Node.js server with API proxy
-├── package.json        # Project dependencies and scripts
-└── README.md          # This file
-```
+## ⚙️ Настройка OnlySq API
 
-## API Endpoints
-
-The server provides proxy endpoints to avoid CORS issues:
-
-- `GET /api/models` - Fetch available AI models
-- `POST /api/chat/completions` - Send chat messages to AI models
-
-## Configuration
-
-### Changing the Port
-
-Edit `server.js` and modify the `PORT` variable:
-```javascript
-const PORT = process.env.PORT || 3000; // Change 3000 to your preferred port
-```
-
-### API Key
-
-The application comes pre-configured with your API key:
-- **API Key**: `sq-zq8kT2BEKhxFdapFvtGBvlX8EB1PjbOa`
+Бот использует OnlySq API с базовыми настройками:
 - **Base URL**: `https://api.onlysq.ru/ai/openai`
+- **API Key**: `openai` (базовый ключ)
+- **Модель по умолчанию**: `gpt-4o-mini`
 
-You can change these in the frontend JavaScript if needed.
+Для использования других моделей или настроек:
+1. Используйте команду `/settings` для просмотра текущих настроек
+2. Измените настройки с помощью:
+   - `/set_model [название_модели]`
+   - `/set_tokens [число_токенов]`
+   - `/set_temp [температура]`
 
-## Available Models
+## 📝 Команды
 
-The interface automatically loads all available models from the OnlySq API, including:
+### Основные команды
+- **`/start`** - Приветственное сообщение и запуск бота
+- **`/help`** - Показать справку по всем командам
+- **`/clear`** - Очистить историю диалога (сохраняя системные сообщения)
 
-- **Text Models**: GPT-4o, Claude, Gemini, Llama, Qwen, and more
-- **Image Models**: Flux, GPT Image, and others
-- **Specialized Models**: Reasoning models, coding models, and search-optimized models
+### Дополнительные функции
+- **`/settings`** - Просмотр текущих настроек AI
+- **`/history`** - Просмотр последних 10 сообщений из истории
+- **`/image [описание]`** - Сгенерировать изображение по описанию
 
-## Browser Compatibility
+### Команды настройки
+- **`/set_model [название]`** - Изменить модель AI
+- **`/set_tokens [число]`** - Изменить максимальное количество токенов (100-4000)
+- **`/set_temp [число]`** - Изменить температуру генерации (0.0-2.0)
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+### Поддерживаемые модели
 
-## Troubleshooting
+**Текстовые модели:**
+- `gpt-4o-mini`, `gpt-4o`, `gpt-4`, `gpt-3.5-turbo`
+- `gemini-3.1-pro`, `gemini-3-pro`, `gemini-2.5-pro`, `gemini-2.0-flash`
+- `claude-sonnet-4-5`, `claude-haiku-4-5`
+- `llama3.1-8b`, `qwen-3-32b` и многие другие
 
-### Server Won't Start
-- Ensure Node.js is installed: `node --version`
-- Check port availability: `netstat -an | grep 3000`
+**Модели с поддержкой изображений (для анализа фото):**
+- `gemini-3.1-pro`, `gemini-3-pro`, `gemini-2.5-pro`
+- `gemini-2.5-flash`, `gemini-2.0-flash`
 
-### Models Not Loading
-- Check internet connection
-- Verify API key is correct
-- Check browser console for errors
+💡 **Совет:** Для анализа изображений рекомендуется использовать Gemini модели
 
-### CORS Issues
-The server includes CORS middleware to handle cross-origin requests automatically.
+## 🔗 ТолькоSq API Возможности
 
-## License
+Бот поддерживает все возможности OnlySq API:
 
-MIT License - Feel free to use and modify as needed.
+### OpenAI SDK
+- Полная совместимость с OpenAI SDK
+- Поддержка всех 40+ доступных моделей
+- Работа через стандартные endpoint'ы
 
-## Support
+### API2.0
+- Прямой доступ к OnlySq API
+- Поддержка streaming ответов
+- Расширенные возможности настройки
 
-For issues or questions:
-1. Check the browser console for error messages
-2. Verify your API key is valid
-3. Ensure the OnlySq API is accessible from your location
+### ImaGen
+- Генерация изображений через OnlySq API
+- Поддержка различных соотношений сторон
+- Интеграция с моделями Flux
 
-## API Documentation
+### OnlySq Cloud
+- Загрузка файлов в облачное хранилище
+- Получение ссылок для скачивания
+- Безопасное и анонимное хранение
 
-For more information about the OnlySq API, visit:
-[OnlySq API Documentation](https://api.onlysq.ru/docs)
+## 🔧 Примеры использования
+
+### Начало работы
+```
+/start
+```
+Бот ответит приветственным сообщением и предложит использовать команды.
+
+### Настройка модели
+```
+/set_model gpt-4o
+/set_tokens 2000
+/set_temp 0.8
+```
+
+### Генерация изображения
+```
+/image красивый пейзаж с горами и озером
+```
+
+### Просмотр истории
+```
+/history
+```
+
+## 🐛 Обработка ошибок
+
+Бот обрабатывает следующие ошибки:
+- Неправильный формат команд
+- Ошибки соединения с OnlySq API
+- Недопустимые значения параметров
+- Ограничения по длине сообщений
+
+Все ошибки логируются и пользователь получает понятное сообщение об ошибке.
+
+## 📁 Структура проекта
+
+```
+onlysq-telegram-bot/
+├── telegram_bot.py      # Основной файл бота
+├── requirements.txt     # Зависимости
+├── README.md           # Документация
+└── .env               # Переменные окружения (не в репозитории)
+```
+
+## 🔒 Безопасность
+
+- Telegram Bot Token хранится в переменных окружения
+- OnlySq API использует базовый ключ по умолчанию
+- Все сообщения пользователей обрабатываются анонимно
+- История диалогов хранится только в памяти (не сохраняется на диск)
+
+## 🤝 Вклад в развитие
+
+Приветствуются:
+- Исправление багов
+- Добавление новых функций
+- Улучшение документации
+- Тестирование
+
+## 📄 Лицензия
+
+Этот проект распространяется под лицензией MIT. Подробнее см. в файле LICENSE.
+
+## 🆘 Поддержка
+
+Если у вас возникли вопросы или проблемы:
+1. Проверьте эту документацию
+2. Посмотрите логи бота
+3. Создайте issue в репозитории
+
+## 📞 Контакты
+
+Для вопросов и предложений:
+- Telegram: @your_username
+- Email: your.email@example.com
+
+---
+
+**Happy chatting with OnlySq AI! 🤖✨**
