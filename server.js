@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 });
 
 // Proxy endpoint for OnlySq API models
-app.get('/api/models', async (req, res) => {
+app.get('/models', async (req, res) => {
     try {
         const response = await fetch('https://api.onlysq.ru/ai/models', {
             headers: {
@@ -37,7 +37,7 @@ app.get('/api/models', async (req, res) => {
 });
 
 // Proxy endpoint for OnlySq API chat completions
-app.post('/api/chat/completions', async (req, res) => {
+app.post('/chat/completions', async (req, res) => {
     try {
         const { model, messages, max_tokens, temperature } = req.body;
         
